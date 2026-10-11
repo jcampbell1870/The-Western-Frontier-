@@ -1,0 +1,14 @@
+name: The Western Frontier
+services:
+  - type: web
+    name: western-frontier
+    env: python
+    pythonVersion: 3.12
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        value: western-frontier-secret-render-deployment
+      - key: FLASK_ENV
+        value: production
