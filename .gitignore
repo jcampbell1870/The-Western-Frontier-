@@ -1,16 +1,49 @@
-# Created by GitHub Copilot
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-[D]bin/
-[D]obj/
-[D].vs/
-[D]*.user
-[D]*.suo
-[D]*.cache
-[D]*.pdb
-[D]*.dll
-[D]*.exe
-[D]*.log
-[D]*.db
-[D]*.sqlite
-[D]*.db-shm
-[D]*.db-wal
+# Flask
+instance/
+.webassets-cache
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
