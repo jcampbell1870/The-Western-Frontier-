@@ -1,0 +1,16 @@
+# Created by GitHub Copilot
+
+[D]bin/
+[D]obj/
+[D].vs/
+[D]*.user
+[D]*.suo
+[D]*.cache
+[D]*.pdb
+[D]*.dll
+[D]*.exe
+[D]*.log
+[D]*.db
+[D]*.sqlite
+[D]*.db-shm
+[D]*.db-wal
