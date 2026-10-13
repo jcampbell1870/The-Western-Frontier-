@@ -5,10 +5,10 @@ services:
     env: python
     pythonVersion: 3.12
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
     plan: free
     envVars:
       - key: SECRET_KEY
-        value: western-frontier-secret-render-deployment
+        value: change-me-to-a-secure-random-secret
       - key: FLASK_ENV
         value: production
