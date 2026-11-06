@@ -2,7 +2,7 @@
 
 ## Overview
 
-A playable web-based recreation of the classic 1971 Oregon Trail game, built with Python 3 and Flask. Players manage resources, make strategic decisions, and survive the journey from Missouri to Oregon. Completed journeys earn Arcade1870 tokens from the shared reward vault.
+A playable web-based recreation of the classic 1971 Oregon Trail game, built with Python 3 and Flask. Players manage resources, make strategic decisions, and survive the journey from Missouri to Oregon.
 
 ## Features
 
@@ -43,41 +43,60 @@ python app.py
 
 Visit `http://localhost:5000` in your browser.
 
-## Deployment to Render
+## Deployment to Railway
 
-### Step 1: Connect GitHub Repository
+Railway is the recommended host for this project because it supports Python web apps natively, provides environment variables, and keeps deployment simple without needing Render-specific YAML.
 
-1. Go to [Render Dashboard](https://dashboard.render.com/)
-2. Click **New +** > **Web Service**
-3. Connect your GitHub account and select `The-Western-Frontier-` repository
-4. Render will auto-detect the `render.yaml` configuration
+### Step 1: Prepare the repository
 
-### Step 2: Configure Service
+1. Push this repository to GitHub.
+2. Ensure the project contains:
+   - `requirements.txt`
+   - `app.py`
+   - `railway.json` (included in this repo)
+   - `runtime.txt` (included in this repo)
 
-Render will read from `render.yaml` and auto-configure:
+### Step 2: Create a Railway project
 
-```yaml
-name: The Western Frontier
-services:
-  - type: web
-    name: western-frontier
-    env: python
-    pythonVersion: 3.12
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+1. Go to [Railway](https://railway.com/)
+2. Sign in with GitHub
+3. Click **New Project**
+4. Select **Deploy from GitHub repo**
+5. Choose `The-Western-Frontier-`
+
+Railway will automatically detect the Python app and use the settings in `railway.json`.
+
+### Step 3: Configure environment variables
+
+Set these in the Railway dashboard:
+
+- `FLASK_ENV`: `production`
+- `SECRET_KEY`: any long random value
+
+`PORT` is provided automatically by Railway.
+
+### Step 4: Deploy
+
+Railway will run the project with:
+
+```bash
+gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
 ```
 
-### Step 3: Deploy
+Once the build completes, Railway will provide a public URL such as:
 
-1. Click **Create Web Service**
-2. Render will automatically build and deploy
-3. Your app will be live at: `https://your-render-service-name.onrender.com`
+```text
+https://your-project-name.up.railway.app
+```
 
-### Environment Variables (Set in Render Dashboard)
+### Optional: custom domain
 
-- `FLASK_ENV`: production
-- `SECRET_KEY`: Your secret key (Render auto-generates)
-- `PORT`: Automatically set by Render (default 5000)
+After deployment:
+
+1. Open your Railway project
+2. Go to **Settings**
+3. Select **Domains**
+4. Add your custom domain and follow the DNS instructions
 
 ## Game Mechanics
 
@@ -192,7 +211,7 @@ Health check endpoint.
 - **WSGI Server**: Gunicorn 22.0.0
 - **Language**: Python 3.12
 - **CORS Support**: Flask-CORS 4.0.0
-- **Deployment**: Render (Docker-ready)
+- **Deployment**: Railway
 
 ## File Structure
 
@@ -200,20 +219,22 @@ Health check endpoint.
 The-Western-Frontier-/
 ├── app.py                  # Main Flask application
 ├── requirements.txt        # Python dependencies
-├── Procfile               # Deployment configuration
-├── render.yaml            # Render service config
-├── config.json            # Blockchain configuration
+├── railway.json            # Railway deployment configuration
+├── runtime.txt             # Python version pin
+├── Procfile                # Legacy Render compatibility
+├── render.yaml             # Legacy Render config
+├── config.json             # Blockchain configuration
 ├── templates/
 │   └── index.html         # Game UI (HTML/CSS/JS)
-└── README.md             # This file
+└── README.md              # This file
 ```
 
 ## Performance
 
 - Session-based state (no database required)
 - Lightweight Flask app (~5-10MB memory)
-- Render free tier: Up to 750 hours/month
-- Auto-sleep after 15 minutes of inactivity
+- Railway free tier: suitable for small hobby deployments
+- Auto-sleep after inactivity may apply depending on the Railway plan
 - Response time: <100ms typical
 
 ## Troubleshooting
@@ -235,7 +256,7 @@ python app.py
 
 - Session data is stored in-memory; redeploys will clear sessions
 - This is by design for stateless web deployment
-- For persistence, implement database (PostgreSQL on Render)
+- For persistence, implement database (PostgreSQL on Railway)
 
 ### Reward claim not working
 
@@ -272,7 +293,7 @@ Contributions welcome! Please:
 For issues or questions:
 
 1. Check [GitHub Issues](https://github.com/jcampbell1870/The-Western-Frontier-/issues)
-2. Review [Render Documentation](https://render.com/docs)
+2. Review [Railway Documentation](https://docs.railway.com/)
 3. Open a new issue with details
 
 ## Acknowledgments
@@ -280,7 +301,7 @@ For issues or questions:
 - Original game: Carleton College (1971) - Don Rawitsch, Bill Heinemann, Paul Dillenberger
 - Producer: Minnesota Educational Computing Consortium (MECC)
 - Built with Flask and Python 3
-- Deployed on Render
+- Deployed on Railway
 - Blockchain integration: Arcade1870 token & reward vault
 
 ---
